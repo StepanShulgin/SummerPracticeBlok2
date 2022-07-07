@@ -4,8 +4,7 @@ namespace SummerPracticeBlok2
 {
     public partial class Form1 : Form
     {
-        int indexSys;
-       
+        int indexSys;       
         int indexTrajectory;
         int indexShape;
         int BidRadius = 200;
@@ -26,7 +25,7 @@ namespace SummerPracticeBlok2
         int acu = 1;
         int counter = 0;
         int SpeedOfPulse = 20;
-       
+        int zalupa = 1;
        
         Point[] p;
               
@@ -38,7 +37,6 @@ namespace SummerPracticeBlok2
             InitializeComponent();
             pictureBox1.Paint += PictureBox1_Paint;
         }
-
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
@@ -51,7 +49,6 @@ namespace SummerPracticeBlok2
             DrawYAxis(new Point(0, h), new Point(0, -h), e.Graphics);
 
         }
-
         private void PictureBox1_Paint(object sender, PaintEventArgs e)
         {
             int w = pictureBox1.ClientSize.Width / 2;
@@ -144,17 +141,20 @@ namespace SummerPracticeBlok2
             triangle = new Point[3];
             indexShape = 0;
             double rad = (Math.Sqrt(3) * side / 3);
-        
-           
-            
-            
+
+            int j;
 
             if (direct == 0)
             {
 
-                for (int i = 0; i < p.Length; i++)
+                for (int i = 0; i < zalupa*p.Length; i++)
                 {
-                    if (i % acu == 0)
+                    j = i;
+                    if (i == zalupa * p.Length) {
+                        j = 0;
+
+                    }
+                    if (j % acu == 0)
                     {
                         rad = (Math.Sqrt(3) * side / 3);
 
@@ -167,9 +167,9 @@ namespace SummerPracticeBlok2
                         Графика.DrawEllipse(Pens.Black, (int)(-BidRadius / 2), (int)(-BidRadius / 2), BidRadius, BidRadius);
                         Графика.DrawEllipse(Pens.Black, (int)(BidRadius / 2), (int)(p[p.Length - 1].Y - (SmallRadius / 2)), SmallRadius, SmallRadius);
 
-                        triangle[0] = new Point((int)(p[i].X + rad * Math.Cos(angleTurn)), (int)(p[i].Y + rad * Math.Sin(angleTurn)));
-                        triangle[1] = new Point((int)(p[i].X + rad * Math.Cos((2 * Math.PI) / 3 + angleTurn)), (int)(p[i].Y + rad * Math.Sin((2 * Math.PI) / 3 + angleTurn)));
-                        triangle[2] = new Point((int)(p[i].X + rad * Math.Cos((4 * Math.PI) / 3 + angleTurn)), (int)(p[i].Y + rad * Math.Sin((4 * Math.PI) / 3 + angleTurn)));
+                        triangle[0] = new Point((int)(p[j].X + rad * Math.Cos(angleTurn)), (int)(p[j].Y + rad * Math.Sin(angleTurn)));
+                        triangle[1] = new Point((int)(p[j].X + rad * Math.Cos((2 * Math.PI) / 3 + angleTurn)), (int)(p[j].Y + rad * Math.Sin((2 * Math.PI) / 3 + angleTurn)));
+                        triangle[2] = new Point((int)(p[j].X + rad * Math.Cos((4 * Math.PI) / 3 + angleTurn)), (int)(p[j].Y + rad * Math.Sin((4 * Math.PI) / 3 + angleTurn)));
                         Графика.DrawPolygon(ShapePen, triangle);
                         Графика.FillPolygon(fill, triangle);
                         angleTurn += angleStat;
@@ -243,7 +243,6 @@ namespace SummerPracticeBlok2
                 }
             }
 
-
             counter = 0;
             cheack = 0;
             angleTurn = 0;
@@ -251,37 +250,23 @@ namespace SummerPracticeBlok2
             e.Graphics.FillPolygon(fill, triangle);
 
         }
-
-
-
-        
-
-
-
-        //Рисование оси X
         private void DrawXAxis(Point start, Point end, Graphics g)
         {
             g.DrawLine(Pens.Black, start, end);
-        }
-
-        //Рисование оси Y
+        }        
         private void DrawYAxis(Point start, Point end, Graphics g)
         {
             g.DrawLine(Pens.Black, start, end);
         }
-
-
         protected override void OnClosing(CancelEventArgs e)
         {
             Application.Exit();
         }
-
         private void SecondRаdius_Click(object sender, EventArgs e)
         {
             BigRadBox.Text = BigRad.ToString();
 
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             BigRadBox.Text = BidRadius.ToString();
@@ -304,15 +289,11 @@ namespace SummerPracticeBlok2
 
 
         }
-
         private void CoordinateSystem_Click(object sender, EventArgs e)
         {
             indexSys = 1;
             pictureBox1.Refresh();
         }
-
-
-
         private void Trajectory_Click(object sender, EventArgs e)
         {
             
@@ -323,7 +304,6 @@ namespace SummerPracticeBlok2
 
             pictureBox1.Refresh();
         }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox1.SelectedIndex)
@@ -338,10 +318,9 @@ namespace SummerPracticeBlok2
             }
 
         }
-
         private void Shape_Click(object sender, EventArgs e)
         {
-            
+            if (ZalupaBox.Text != "") zalupa = Convert.ToInt32(ZalupaBox.Text);
             if (BigRadBox.Text != "") BidRadius = Convert.ToInt32(BigRadBox.Text);
             SmallRadius = BidRadius / type;
             if (SpeedBox.Text != "") Speed = Convert.ToInt32(SpeedBox.Text);
@@ -364,7 +343,6 @@ namespace SummerPracticeBlok2
 
 
         }
-
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox2.SelectedIndex)
@@ -373,12 +351,8 @@ namespace SummerPracticeBlok2
                     direct = 0; break;
                 case 1:
                     direct = 1; break;
-
-
-
             }
         }
-
         private void comboBox6_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox6.SelectedIndex)
@@ -392,15 +366,10 @@ namespace SummerPracticeBlok2
                 case 3:
                     TrajectoryPen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot; break;
                 case 4:
-                    TrajectoryPen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDotDot; break;              
-
-
-
+                    TrajectoryPen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDotDot; break;
             }
 
-
         }
-
         private void comboBox9_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox9.SelectedIndex)
@@ -418,7 +387,6 @@ namespace SummerPracticeBlok2
             }
 
         }
-
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox5.SelectedIndex)
@@ -436,7 +404,6 @@ namespace SummerPracticeBlok2
             }
 
         }
-
         private void comboBox8_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox8.SelectedIndex)
@@ -454,7 +421,6 @@ namespace SummerPracticeBlok2
             }
 
         }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             if (firstCheak == 0&&secondCheak!=1)
@@ -465,13 +431,7 @@ namespace SummerPracticeBlok2
             }
             secondCheak = 0;
 
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-            
-        }
-
+        }            
         private void TurnBox_TextChanged(object sender, EventArgs e)
         {
             if (firstCheak == 0)
@@ -498,7 +458,6 @@ namespace SummerPracticeBlok2
            
 
         }
-
         private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox7.SelectedIndex)
@@ -515,7 +474,6 @@ namespace SummerPracticeBlok2
                     TrajectoryPen.Color = Color.Green; break;
             }
         }
-
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox3.SelectedIndex)
@@ -533,7 +491,6 @@ namespace SummerPracticeBlok2
             }
 
         }
-
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox4.SelectedIndex)
@@ -550,7 +507,6 @@ namespace SummerPracticeBlok2
                     fill = new SolidBrush(Color.Green); break;
             }
         }
-
         private void acur_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (acur.SelectedIndex)
@@ -562,8 +518,7 @@ namespace SummerPracticeBlok2
                 case 2:
                     acu = 4; break;
                 case 3:
-                    acu = 10; break;
-                
+                    acu = 10; break;                
             }
 
         }
