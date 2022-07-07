@@ -284,7 +284,7 @@ namespace SummerPracticeBlok2
             comboBox3.Text = "Green";
             comboBox4.Text = "Coral";
             comboBox5.Text = "2";
-            comboBox9.Text = "Solid";
+            comboBox9.Text = "Soli";
             firstCheak = 0;
 
 
